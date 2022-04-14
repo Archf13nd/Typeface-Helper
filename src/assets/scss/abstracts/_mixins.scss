@@ -1,0 +1,11 @@
+@mixin line-height($number, $line-height) {
+  line-height: #{$number * $line-height + "em"};
+}
+
+@mixin margin-top($number, $line-height) {
+  margin-top: #{$number * $line-height + "em"};
+}
+
+@mixin margin-bottom($number, $line-height) {
+  margin-bottom: #{$number * $line-height + "em"};
+}

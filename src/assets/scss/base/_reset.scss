@@ -2,6 +2,11 @@
 /*  Reset                 */
 /* ---------------------- */
 
+html,
+body {
+  font-size: $base-font-size-desktop;
+}
+
 /* Box Sizing */
 *,
 *::before,

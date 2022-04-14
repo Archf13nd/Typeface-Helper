@@ -17,11 +17,6 @@ export default {
 <template>
   <div class="text-windows">
     <text-window :title="title" :paragraph="paragraph"></text-window>
-    <text-window :title="title" :paragraph="paragraph"></text-window>
-    <text-window :title="title" :paragraph="paragraph"></text-window>
-    <text-window :title="title" :paragraph="paragraph"></text-window>
-    <text-window :title="title" :paragraph="paragraph"></text-window>
-    <text-window :title="title" :paragraph="paragraph"></text-window>
   </div>
 </template>
 

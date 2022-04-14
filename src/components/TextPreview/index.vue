@@ -44,6 +44,7 @@ export default {
   },
   methods: {
     importWebFont(font) {
+      console.log(font);
       WebFont.load({
         google: {
           families: [`${font}`],
@@ -105,7 +106,10 @@ export default {
 .text-preview {
   display: flex;
   margin: 2rem;
-  border: 1px solid #333;
+  border: 1px solid $clr-twilight;
+  box-shadow: 4px 4px 2px rgba(0, 0, 0, 0.25);
+  border-radius: 13px;
+  overflow: hidden;
 
   &__text {
     padding: 2rem;
