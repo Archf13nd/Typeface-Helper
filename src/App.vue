@@ -1,5 +1,5 @@
 <script>
-import TextWindow from "./components/TextPreview/index.vue";
+import TextBox from "./components/text_box/index.vue";
 export default {
   data() {
     return {
@@ -9,14 +9,14 @@ export default {
     };
   },
   components: {
-    TextWindow,
+    TextBox,
   },
 };
 </script>
 
 <template>
   <div class="text-windows">
-    <text-window :title="title" :paragraph="paragraph"></text-window>
+    <text-box :title="title" :paragraph="paragraph"></text-box>
   </div>
 </template>
 

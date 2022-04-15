@@ -1,0 +1,70 @@
+.setting {
+  display: flex;
+  flex-direction: column;
+
+  & label {
+    font-size: 0.875em;
+  }
+}
+
+.input-text {
+  height: getLength(1, $line-height-settings);
+  margin: 0;
+}
+
+.input-label {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  & p {
+    font-size: 16px;
+  }
+}
+
+.number-input-label {
+  & input {
+    height: getLength(1, $line-height-settings);
+
+    width: 2.5rem;
+    text-align: right;
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+    background: transparent;
+
+    &:focus {
+      outline: none;
+
+      border-radius: 0 0 0 10%;
+    }
+  }
+
+  &:hover,
+  &:focus {
+    border-radius: 2px;
+  }
+}
+
+.input-remove-spinner {
+  &::-webkit-inner-spin-button,
+  &::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+}
+
+.option-box {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: getLength(2, $line-height-settings);
+  height: getLength(2, $line-height-settings);
+  border: 1px solid $clr-dark;
+  user-select: none;
+
+  &--selected {
+    border: 1px solid rgb(27, 157, 27);
+    background: rgb(27, 157, 27, 0.2);
+  }
+}
