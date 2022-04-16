@@ -24,6 +24,10 @@
 /*--------------------------*/
 /*-Width from line-height---*/
 /*--------------------------*/
-@function getLength($number, $line-height) {
+@function getRems($number, $line-height) {
+  @return #{$number * $line-height + "rem"};
+}
+
+@function getEms($number, $line-height) {
   @return #{$number * $line-height + "em"};
 }

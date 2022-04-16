@@ -64,10 +64,11 @@ export default {
       <div></div>
     </div>
     <div class="setting settings__typeface">
-      <label for="typeface">Typeface</label>
+      <div class="input-label">
+        <label for="typeface">Typeface</label>
+      </div>
       <input
         id="typeface"
-        class="setting__import"
         v-model="typeface"
         type="text"
         @change="exportTypeface"
@@ -76,25 +77,25 @@ export default {
     <div class="settings_setting settings__options">
       <div class="flex-sb">
         <div
-          class="option-box bold"
+          class="option-box"
           :class="{ 'option-box--selected': options.bold }"
           @click="options.bold = !options.bold"
         >
-          B
+          <p class="bold">B</p>
         </div>
         <div
-          class="option-box italic"
+          class="option-box"
           :class="{ 'option-box--selected': options.italic }"
           @click="options.italic = !options.italic"
         >
-          i
+          <p class="italic">I</p>
         </div>
         <div
-          class="option-box underline"
+          class="option-box"
           :class="{ 'option-box--selected': options.underline }"
           @click="options.underline = !options.underline"
         >
-          U
+          <p class="underline">U</p>
         </div>
       </div>
       <div class="flex-sb">
@@ -103,21 +104,21 @@ export default {
           :class="{ 'option-box--selected': options.figatures }"
           @click="options.figatures = !options.figatures"
         >
-          fi
+          <p>fi</p>
         </div>
         <div
           class="option-box"
           :class="{ 'option-box--selected': options.kerning }"
           @click="options.kerning = !options.kerning"
         >
-          k
+          <p>k</p>
         </div>
         <div
           class="option-box"
           :class="{ 'option-box--selected': options.antialiasing }"
           @click="options.antialiasing = !options.antialiasing"
         >
-          a
+          <p>a</p>
         </div>
       </div>
     </div>
@@ -197,40 +198,54 @@ export default {
 </template>
 
 <style lang="scss" scoped>
+// Changing these values will change the grid
+$line-height: 1.2;
+$font-size: 1rem;
+
 .settings {
+  // CSS variable passes line-height into scss components
+  --line-height: #{$line-height};
+
+  font-family: $ff-sans;
   position: relative;
-  font-size: 0.875rem;
-  font-size: 1rem;
-  line-height: $line-height-settings;
-  background: rgb(255, 255, 255);
-  width: getLength(10, $line-height-settings);
-  height: getLength(19, $line-height-settings);
-  padding: 0 getLength(1, $line-height-settings);
+  font-size: $font-size;
+  line-height: $line-height;
+  // background: rgb(255, 255, 255);
+  width: getEms(10, $line-height);
+  height: getEms(19, $line-height);
+  padding: 0 getEms(1, $line-height);
   border-right: 1px solid $clr-twilight;
   transition: all 0.5s ease;
 
   &__typeface {
-    @include margin-top(1, $line-height-settings);
+    @include margin-top(1, $line-height);
+    & > label {
+      display: block;
+      @include line-height(1, $line-height);
+    }
+
     & > input {
-      height: getLength(2, $line-height-settings);
+      height: getEms(2, $line-height);
       font-size: 1em;
-      // font-size: 18px;
     }
   }
 
   &__options {
-    @include margin-top(1, $line-height-settings);
+    // --line-height: ;
+
+    @include margin-top(1, $line-height);
     display: flex;
+    height: getEms(5, $line-height);
     flex-direction: column;
     justify-content: space-between;
-    gap: getLength(1, $line-height-settings);
+    gap: getEms(1, $line-height);
   }
   &__sliders {
-    @include margin-top(1, $line-height-settings);
-    height: getLength(7, $line-height-settings);
+    @include margin-top(1, $line-height);
+    height: getEms(7, $line-height);
     display: flex;
     flex-direction: column;
-    gap: getLength(0.5, $line-height-settings);
+    gap: getEms(0.5, $line-height);
   }
 }
 
@@ -243,10 +258,10 @@ export default {
   left: 0;
   pointer-events: none;
   opacity: 0.2;
-  // display: none;
+  display: none;
 
   & div {
-    height: #{$line-height-settings * 16px};
+    height: #{$line-height * $font-size};
     border: 0.5px solid rgb(126, 126, 126);
   }
 }

@@ -2,7 +2,8 @@
 /*---Typography--------------*/
 /*---------------------------*/
 $base-font-size-desktop: 16px;
-$line-height-settings: 1.25;
+$line-height-settings: 1.35;
+$ff-sans: "Open Sans", sans-serif;
 
 /*---------------------------*/
 /*---Colour--------------*/
@@ -10,3 +11,9 @@ $line-height-settings: 1.25;
 $clr-dark: #333;
 $clr-twilight: #afafaf;
 $clr-light: #fff;
+
+/*---------------------------*/
+/*---Decorative--------------*/
+/*---------------------------*/
+
+$box-shadow-default: -0px 0px 2px 1px rgba(0, 0, 0, 0.25);

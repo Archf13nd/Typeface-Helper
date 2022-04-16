@@ -5,7 +5,7 @@ export default {
   data() {
     return {
       isSettingsHidden: true,
-      currentTypeface: "",
+      currentTypeface: "PT Serif",
       activeFontSize: 16,
       activeLeading: 1.3,
       activeMeasure: 500,
@@ -105,9 +105,10 @@ export default {
 <style lang="scss" scoped>
 .text-preview {
   display: flex;
+  align-items: center;
   margin: 2rem;
   border: 1px solid $clr-twilight;
-  box-shadow: 4px 4px 2px rgba(0, 0, 0, 0.25);
+  box-shadow: $box-shadow-default;
   border-radius: 13px;
   overflow: hidden;
 

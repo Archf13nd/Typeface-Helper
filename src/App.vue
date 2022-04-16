@@ -1,5 +1,7 @@
 <script>
+import TheHeader from "./components/header/Index.vue";
 import TextBox from "./components/text_box/index.vue";
+import GlobalSettings from "./components/global_settings/Index.vue";
 export default {
   data() {
     return {
@@ -9,14 +11,26 @@ export default {
     };
   },
   components: {
+    TheHeader,
     TextBox,
+    GlobalSettings,
+  },
+  methods: {
+    changeParagraph(e) {
+      this.paragraph = e;
+    },
   },
 };
 </script>
 
 <template>
+  <the-header></the-header>
   <div class="text-windows">
     <text-box :title="title" :paragraph="paragraph"></text-box>
+    <text-box :title="title" :paragraph="paragraph"></text-box>
+    <text-box :title="title" :paragraph="paragraph"></text-box>
+    <text-box :title="title" :paragraph="paragraph"></text-box>
+    <global-settings @textContent="changeParagraph"></global-settings>
   </div>
 </template>
 
