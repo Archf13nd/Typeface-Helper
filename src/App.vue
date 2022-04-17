@@ -1,8 +1,15 @@
 <script>
-import TheHeader from "./components/header/Index.vue";
+import TheHeader from "./components/header/index.vue";
 import TextBox from "./components/text_box/index.vue";
-import GlobalSettings from "./components/global_settings/Index.vue";
+import GlobalSettings from "./components/global_settings/main.vue";
+import { useStore } from "./store/index.js";
+
 export default {
+  setup() {
+    const store = useStore();
+
+    return { store };
+  },
   data() {
     return {
       title: "The dead eye",

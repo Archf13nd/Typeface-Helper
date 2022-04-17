@@ -1,13 +1,23 @@
 <script>
+import { useStore } from "../../store/index.js";
 export default {
+  setup() {
+    const store = useStore();
+    return { store };
+  },
   data() {
     return {
-      textContent: "",
+      title: "",
+      paragraph: "",
     };
   },
   methods: {
-    exportTextContent() {
-      this.$emit("textContent", this.textContent);
+    updateTitle(e) {
+      console.log(e);
+      this.store.updateTitle(this.title);
+    },
+    updateParagraph(e) {
+      this.store.updateParagraph(this.paragraph);
     },
   },
 };
@@ -56,22 +66,17 @@ export default {
       <div></div>
     </div>
     <div class="global-settings__typeface setting">
-      <label for="typeface">Typeface</label>
-      <input
-        id="typeface"
-        v-model="typeface"
-        type="text"
-        @input="exportTypeface"
-      />
+      <label for="title">Title</label>
+      <input id="title" v-model="title" type="text" @change="updateTitle" />
     </div>
     <div class="global-settings__box-content setting">
-      <label for="boxContent">Box Content</label>
+      <label for="paragraph">Box Content</label>
       <textarea
-        id="boxContent"
-        v-model="textContent"
+        id="paragraph"
+        v-model="paragraph"
         type="text"
-        @change="exportTextContent"
         rows="7"
+        @change="updateParagraph"
       />
     </div>
 

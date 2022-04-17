@@ -7,7 +7,7 @@ export default {
       measure: 550,
       leading: 1.3,
       typeface: "",
-      options: {
+      fontOptions: {
         bold: false,
         italic: false,
         underline: false,
@@ -31,6 +31,17 @@ export default {
     },
     exportMeasure() {
       this.$emit("measure", this.measure);
+    },
+    exportOptions() {
+      this.$emit("fontOptions", this.fontOptions);
+    },
+    switchStateAndLoad(fontOption) {
+      if (this.fontOptions[fontOption]) {
+        this.fontOptions[fontOption] = false;
+      } else {
+        this.fontOptions[fontOption] = true;
+      }
+      this.exportOptions();
     },
   },
 };
@@ -78,22 +89,22 @@ export default {
       <div class="flex-sb">
         <div
           class="option-box"
-          :class="{ 'option-box--selected': options.bold }"
-          @click="options.bold = !options.bold"
+          :class="{ 'option-box--selected': fontOptions.bold }"
+          @click="switchStateAndLoad('bold')"
         >
           <p class="bold">B</p>
         </div>
         <div
           class="option-box"
-          :class="{ 'option-box--selected': options.italic }"
-          @click="options.italic = !options.italic"
+          :class="{ 'option-box--selected': fontOptions.italic }"
+          @click="switchStateAndLoad('italic')"
         >
           <p class="italic">I</p>
         </div>
         <div
           class="option-box"
-          :class="{ 'option-box--selected': options.underline }"
-          @click="options.underline = !options.underline"
+          :class="{ 'option-box--selected': fontOptions.underline }"
+          @click="switchStateAndLoad('underline')"
         >
           <p class="underline">U</p>
         </div>
@@ -101,22 +112,22 @@ export default {
       <div class="flex-sb">
         <div
           class="option-box"
-          :class="{ 'option-box--selected': options.figatures }"
-          @click="options.figatures = !options.figatures"
+          :class="{ 'option-box--selected': fontOptions.ligatures }"
+          @click="switchStateAndLoad('ligatures')"
         >
           <p>fi</p>
         </div>
         <div
           class="option-box"
-          :class="{ 'option-box--selected': options.kerning }"
-          @click="options.kerning = !options.kerning"
+          :class="{ 'option-box--selected': fontOptions.kerning }"
+          @click="switchStateAndLoad('kerning')"
         >
           <p>k</p>
         </div>
         <div
           class="option-box"
-          :class="{ 'option-box--selected': options.antialiasing }"
-          @click="options.antialiasing = !options.antialiasing"
+          :class="{ 'option-box--selected': fontOptions.antialiasing }"
+          @click="switchStateAndLoad('antialising')"
         >
           <p>a</p>
         </div>
