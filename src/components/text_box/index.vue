@@ -15,12 +15,12 @@ export default {
       activeLeading: 1.3,
       activeMeasure: 500,
       fontOptions: {
-        bold: false,
+        fontWeight: false,
         italic: false,
         underline: false,
         figatures: true,
         kerning: true,
-        antialiasing: false,
+        justifyCenter: false,
       },
     };
   },
@@ -60,7 +60,8 @@ export default {
       console.log(font);
       WebFont.load({
         google: {
-          families: [`${font}`],
+          // families: [`${font}:100,200,300,400,500,600,700,800,900`],
+          families: [`${font}:italic,100,200,300,400,500,600,700,800,900`],
         },
       });
     },
@@ -80,6 +81,9 @@ export default {
       console.log(e);
       this.fontOptions = e;
       console.log(this.fontOptions);
+    },
+    checkFontWeight(weight) {
+      return weight === +this.fontOptions.fontWeight;
     },
   },
 };
@@ -111,14 +115,32 @@ export default {
         width: getMeasure,
       }"
       :class="{
-        bold: this.fontOptions.bold,
+        'fw-100': checkFontWeight(100),
+        'fw-200': checkFontWeight(200),
+        'fw-300': checkFontWeight(300),
+        'fw-400': checkFontWeight(400),
+        'fw-500': checkFontWeight(500),
+        'fw-600': checkFontWeight(600),
+        'fw-700': checkFontWeight(700),
+        'fw-800': checkFontWeight(800),
+        'fw-900': checkFontWeight(900),
         italic: this.fontOptions.italic,
         underline: this.fontOptions.underline,
         'remove-ligatures': !this.fontOptions.ligatures,
+        'remove-kerning': !this.fontOptions.kerning,
+        'justify-text-center': this.fontOptions.justifyCenter,
       }"
     >
       <h1 contenteditable="true">{{ this.store.getTitle }}</h1>
-      <p contenteditable="true">{{ this.store.getParagraph }}</p>
+      <p
+        :class="{
+          'old-style-figures': this.fontOptions.oldStyleFigures,
+          'lining-figures': !this.fontOptions.oldStyleFigures,
+        }"
+        contenteditable="true"
+      >
+        {{ this.store.getParagraph }}
+      </p>
     </div>
   </div>
 </template>
@@ -128,10 +150,11 @@ export default {
   display: flex;
   align-items: center;
   margin: 2rem;
-  border: 1px solid $clr-twilight;
+  border: 1px solid var(--clr-twilight);
   box-shadow: $box-shadow-default;
   border-radius: 13px;
   overflow: hidden;
+  color: var(--clr-dark);
 
   &__text {
     padding: 2rem;
@@ -139,6 +162,8 @@ export default {
     & * {
       font-style: inherit;
       font-weight: inherit;
+      font-variant-numeric: inherit;
+      font-feature-settings: inherit;
     }
   }
 }

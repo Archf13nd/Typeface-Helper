@@ -3,6 +3,11 @@
   justify-content: space-between;
 }
 
+.flex-column {
+  display: flex;
+  flex-direction: column;
+}
+
 .italic {
   font-style: italic;
 }
@@ -17,4 +22,24 @@
 
 .remove-ligatures {
   font-variant-ligatures: none;
+  font-feature-settings: "liga" 0;
+}
+
+.remove-kerning {
+  font-kerning: none;
+}
+
+.old-style-figures {
+  font-variant-numeric: oldstyle-nums !important;
+  font-feature-settings: "onum";
+}
+
+.lining-figures {
+  font-variant-numeric: lining-nums;
+  font-feature-settings: "lnum";
+}
+
+.justify-text-center {
+  text-align: justify;
+  hyphens: auto;
 }

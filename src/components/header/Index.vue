@@ -16,7 +16,7 @@ header {
   align-items: center;
   height: 5rem;
   font-size: 1.5rem;
-  border-bottom: 1px solid $clr-twilight;
+  border-bottom: 1px solid var(--clr-twilight);
   padding: 0 5rem;
 }
 

@@ -65,8 +65,10 @@ export default {
       <div></div>
       <div></div>
     </div>
-    <div class="global-settings__typeface setting">
-      <label for="title">Title</label>
+    <div class="global-settings__typeface input-text">
+      <div class="input-text__label">
+        <label for="title">Title</label>
+      </div>
       <input id="title" v-model="title" type="text" @change="updateTitle" />
     </div>
     <div class="global-settings__box-content setting">
@@ -95,10 +97,10 @@ export default {
     </div>
 
     <div class="global-settings__sliders setting">
-      <div class="setting">
-        <div class="input-label">
+      <div class="input-slider">
+        <div class="input-slider__info">
           <label for="size">Font Size:</label>
-          <div class="number-input-label">
+          <div class="input-slider__input-number">
             <input
               class="input-remove-spinner"
               type="number"
@@ -117,10 +119,10 @@ export default {
           @change="exportFontSize"
         />
       </div>
-      <div class="setting">
-        <div class="input-label">
+      <div class="input-slider">
+        <div class="input-slider__info">
           <label for="size">Leading:</label>
-          <div class="number-input-label">
+          <div class="input-slider__input-number">
             <input
               class="input-remove-spinner"
               type="number"
@@ -139,10 +141,10 @@ export default {
           @change="exportFontSize"
         />
       </div>
-      <div class="setting">
-        <div class="input-label">
+      <div class="input-slider">
+        <div class="input-slider__info">
           <label for="size">Measure:</label>
-          <div class="number-input-label">
+          <div class="input-slider__input-number">
             <input
               class="input-remove-spinner"
               type="number"
@@ -169,16 +171,18 @@ export default {
 .global-settings {
   $line-height: $line-height-settings;
   $line-height: 1.25;
+  $font-size: 1.125rem;
   --line-height: #{$line-height};
 
+  font-size: $font-size;
   position: fixed;
   $spacer-1: getEms(1, $line-height);
   $spacer-2: getEms(2, $line-height);
-  background: $clr-light;
+  background: var(--clr-light);
   width: getEms(17, $line-height);
   height: getEms(40, $line-height);
   right: 0;
-  border: 1px solid $clr-twilight;
+  border: 1px solid var(--clr-twilight);
   box-shadow: $box-shadow-default;
 
   &__typeface {
@@ -199,8 +203,8 @@ export default {
     height: calc($spacer-1 * 8);
 
     & textarea {
-      //   height: calc($spacer-1 * 7);
       line-height: $line-height;
+      width: 100%;
     }
   }
 
@@ -223,23 +227,22 @@ export default {
     margin: $spacer-2 $spacer-2 0;
     height: calc($spacer-1 * 8);
   }
-}
+  // Helpers
+  & .show-grid-lines {
+    position: absolute;
+    margin: none;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    left: 0;
+    pointer-events: none;
+    opacity: 0.2;
+    // display: none;
 
-// Helpers
-.show-grid-lines {
-  position: absolute;
-  margin: none;
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
-  left: 0;
-  pointer-events: none;
-  opacity: 0.2;
-  display: none;
-
-  & div {
-    height: #{$line-height-settings * 16px};
-    border: 0.5px solid rgb(126, 126, 126);
+    & div {
+      height: #{$line-height * $font-size};
+      border: 0.5px solid rgb(126, 126, 126);
+    }
   }
 }
 </style>

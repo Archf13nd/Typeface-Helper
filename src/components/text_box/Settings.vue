@@ -8,12 +8,12 @@ export default {
       leading: 1.3,
       typeface: "",
       fontOptions: {
-        bold: false,
+        fontWeight: 400,
         italic: false,
         underline: false,
-        figatures: true,
+        ligatures: true,
         kerning: true,
-        antialiasing: false,
+        justifyCenter: false,
       },
     };
   },
@@ -36,10 +36,12 @@ export default {
       this.$emit("fontOptions", this.fontOptions);
     },
     switchStateAndLoad(fontOption) {
-      if (this.fontOptions[fontOption]) {
-        this.fontOptions[fontOption] = false;
-      } else {
-        this.fontOptions[fontOption] = true;
+      if (fontOption !== "fontWeight") {
+        if (this.fontOptions[fontOption]) {
+          this.fontOptions[fontOption] = false;
+        } else {
+          this.fontOptions[fontOption] = true;
+        }
       }
       this.exportOptions();
     },
@@ -74,8 +76,8 @@ export default {
       <div></div>
       <div></div>
     </div>
-    <div class="setting settings__typeface">
-      <div class="input-label">
+    <div class="input-text">
+      <div class="input-text__label">
         <label for="typeface">Typeface</label>
       </div>
       <input
@@ -86,59 +88,61 @@ export default {
       />
     </div>
     <div class="settings_setting settings__options">
-      <div class="flex-sb">
-        <div
-          class="option-box"
-          :class="{ 'option-box--selected': fontOptions.bold }"
-          @click="switchStateAndLoad('bold')"
-        >
-          <p class="bold">B</p>
-        </div>
-        <div
-          class="option-box"
-          :class="{ 'option-box--selected': fontOptions.italic }"
-          @click="switchStateAndLoad('italic')"
-        >
-          <p class="italic">I</p>
-        </div>
-        <div
-          class="option-box"
-          :class="{ 'option-box--selected': fontOptions.underline }"
-          @click="switchStateAndLoad('underline')"
-        >
-          <p class="underline">U</p>
-        </div>
+      <div class="weight-slider">
+        <p>Font&nbsp;weight</p>
+        <input
+          type="range"
+          step="100"
+          min="100"
+          max="900"
+          v-model="fontOptions.fontWeight"
+          @change="switchStateAndLoad('fontWeight')"
+        />
+        <p>{{ fontOptions.fontWeight }}</p>
       </div>
-      <div class="flex-sb">
-        <div
-          class="option-box"
-          :class="{ 'option-box--selected': fontOptions.ligatures }"
-          @click="switchStateAndLoad('ligatures')"
-        >
-          <p>fi</p>
+      <div class="option-boxes">
+        <div class="flex-sb">
+          <div
+            class="option-box"
+            :class="{ 'option-box--selected': fontOptions.italic }"
+            @click="switchStateAndLoad('italic')"
+          >
+            <p class="italic">I</p>
+          </div>
+          <div
+            class="option-box"
+            :class="{ 'option-box--selected': fontOptions.underline }"
+            @click="switchStateAndLoad('underline')"
+          >
+            <p class="underline">U</p>
+          </div>
         </div>
-        <div
-          class="option-box"
-          :class="{ 'option-box--selected': fontOptions.kerning }"
-          @click="switchStateAndLoad('kerning')"
-        >
-          <p>k</p>
-        </div>
-        <div
-          class="option-box"
-          :class="{ 'option-box--selected': fontOptions.antialiasing }"
-          @click="switchStateAndLoad('antialising')"
-        >
-          <p>a</p>
+        <div class="flex-sb">
+          <div
+            class="option-box"
+            :class="{ 'option-box--selected': fontOptions.ligatures }"
+            @click="switchStateAndLoad('ligatures')"
+          >
+            <p>fi</p>
+          </div>
+
+          <div
+            class="option-box"
+            :class="{ 'option-box--selected': fontOptions.justifyCenter }"
+            @click="switchStateAndLoad('justifyCenter')"
+          >
+            <p>J</p>
+          </div>
         </div>
       </div>
     </div>
     <div class="settings__sliders">
-      <div class="setting">
-        <div class="input-label">
-          <label for="size">Font Size:</label>
-          <div class="number-input-label">
+      <div class="input-slider">
+        <div class="input-slider__info">
+          <label for="fontSize">Font Size:</label>
+          <div class="input-slider__input-number">
             <input
+              id="fontSize"
               class="input-remove-spinner"
               type="number"
               step="0.5"
@@ -157,11 +161,12 @@ export default {
           @change="exportFontSize"
         />
       </div>
-      <div class="setting">
-        <div class="input-label">
-          <label for="size">Leading:</label>
-          <div class="number-input-label">
+      <div class="input-slider">
+        <div class="input-slider__info">
+          <label for="leading">Leading:</label>
+          <div class="input-slider__input-number">
             <input
+              id="leading"
               class="input-remove-spinner"
               type="number"
               step="0.01"
@@ -181,11 +186,12 @@ export default {
           @change="exportLeading"
         />
       </div>
-      <div class="setting">
-        <div class="input-label">
-          <label for="size">Measure:</label>
-          <div class="number-input-label">
+      <div class="input-slider">
+        <div class="input-slider__info">
+          <label for="measure">Measure:</label>
+          <div class="input-slider__input-number">
             <input
+              id="measure"
               class="input-remove-spinner"
               type="number"
               v-model="measure"
@@ -216,7 +222,6 @@ $font-size: 1rem;
 .settings {
   // CSS variable passes line-height into scss components
   --line-height: #{$line-height};
-
   font-family: $ff-sans;
   position: relative;
   font-size: $font-size;
@@ -225,32 +230,27 @@ $font-size: 1rem;
   width: getEms(10, $line-height);
   height: getEms(19, $line-height);
   padding: 0 getEms(1, $line-height);
-  border-right: 1px solid $clr-twilight;
+  border-right: 1px solid var(--clr-twilight);
   transition: all 0.5s ease;
 
-  &__typeface {
-    @include margin-top(1, $line-height);
-    & > label {
-      display: block;
-      @include line-height(1, $line-height);
-    }
-
-    & > input {
-      height: getEms(2, $line-height);
-      font-size: 1em;
-    }
-  }
-
   &__options {
-    // --line-height: ;
-
     @include margin-top(1, $line-height);
     display: flex;
+    // flex-direction: column;
+    align-items: center;
+    // justify-content: flex-start;
     height: getEms(5, $line-height);
-    flex-direction: column;
-    justify-content: space-between;
     gap: getEms(1, $line-height);
+
+    & .option-boxes {
+      flex: 0 0 getEms(5, $line-height);
+      display: flex;
+      flex-direction: column;
+      // flex-wrap: wrap;
+      gap: getEms(1, $line-height);
+    }
   }
+
   &__sliders {
     @include margin-top(1, $line-height);
     height: getEms(7, $line-height);
@@ -269,7 +269,7 @@ $font-size: 1rem;
   left: 0;
   pointer-events: none;
   opacity: 0.2;
-  display: none;
+  // display: none;
 
   & div {
     height: #{$line-height * $font-size};

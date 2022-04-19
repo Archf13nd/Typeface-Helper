@@ -8,12 +8,23 @@ $ff-sans: "Open Sans", sans-serif;
 /*---------------------------*/
 /*---Colour--------------*/
 /*---------------------------*/
-$clr-dark: #333;
-$clr-twilight: #afafaf;
-$clr-light: #fff;
+:root {
+  --clr-dark: #333;
+  --clr-twilight: #afafaf;
+  --clr-light: #fff;
+}
+
+// Dark mode
+// @media (min-width: 900px) {
+//   :root {
+//     --clr-dark: #fff;
+//     --clr-twilight: #afafaf;
+//     --clr-light: #222;
+//   }
+// }
 
 /*---------------------------*/
 /*---Decorative--------------*/
 /*---------------------------*/
 
-$box-shadow-default: -0px 0px 2px 1px rgba(0, 0, 0, 0.25);
+$box-shadow-default: -0px 0px 2px 1px rgba(#333, 0.25);
