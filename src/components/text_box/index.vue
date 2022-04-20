@@ -10,18 +10,15 @@ export default {
   data() {
     return {
       isSettingsHidden: true,
-      currentTypeface: "PT Serif",
-      activeFontSize: 16,
-      activeLeading: 1.3,
-      activeMeasure: 500,
-      fontOptions: {
-        fontWeight: false,
-        italic: false,
-        underline: false,
-        figatures: true,
-        kerning: true,
-        justifyCenter: false,
-      },
+      typeface: "PT Serif",
+      fontSize: 16,
+      leading: 1.3,
+      measure: 500,
+      fontWeight: 400,
+      italic: false,
+      underline: false,
+      ligatures: false,
+      justifyCenter: false,
     };
   },
   components: {
@@ -32,13 +29,13 @@ export default {
       return this.currentTypeface;
     },
     getFontFamily() {
-      let posOfEquals = this.currentTypeface.indexOf("=") + 1;
+      let posOfEquals = this.typeface.indexOf("=") + 1;
       let ffString;
       if (posOfEquals > 0) {
-        let posOfAnd = this.currentTypeface.indexOf("&");
-        ffString = this.currentTypeface.slice(posOfEquals, posOfAnd);
+        let posOfAnd = this.typeface.indexOf("&");
+        ffString = this.typeface.slice(posOfEquals, posOfAnd);
       } else {
-        ffString = this.currentTypeface;
+        ffString = this.typeface;
       }
       if (ffString.length > 1) {
         this.importWebFont(ffString);
@@ -46,13 +43,51 @@ export default {
       }
     },
     getFontSize() {
-      return this.activeFontSize + "px";
+      let globalfontSize = this.store.fontSize;
+      let localfontSize = this.fontSize;
+      console.log(this.store.fontSizeLastUpdate);
+      if (this.store.fontSizeLastUpdate === "local") {
+        return localfontSize + "px";
+      } else {
+        this.fontSize = globalfontSize;
+        return globalfontSize + "px";
+      }
     },
     getMeasure() {
-      return this.activeMeasure + "px";
+      let globalMeasure = this.store.measure;
+      let localMeasure = this.measure;
+
+      if (this.store.measureLastUpdate === "local") {
+        return localMeasure + "px";
+      } else {
+        this.measure = globalMeasure;
+        return globalMeasure + "px";
+      }
     },
     getLeading() {
-      return this.activeLeading;
+      let globalLeading = this.store.leading;
+      let localLeading = this.leading;
+
+      if (this.store.leadingLastUpdate === "local") {
+        return localLeading;
+      } else {
+        this.leading = globalLeading;
+        return globalLeading;
+      }
+    },
+    getFontWeight() {
+      let globalFontWeight = this.store.fontWeight;
+      let localFontWeight = this.fontWeight;
+
+      if (this.store.fontWeightLastUpdate === "local") {
+        return localFontWeight;
+      } else {
+        this.fontWeight = globalFontWeight;
+        return globalFontWeight;
+      }
+    },
+    getColor() {
+      return this.store.color;
     },
   },
   methods: {
@@ -65,25 +100,11 @@ export default {
         },
       });
     },
-    loadTypeface(e) {
-      this.currentTypeface = e;
+    loadLocalSetting(value, setting) {
+      this[setting] = value;
     },
-    loadFontSize(e) {
-      this.activeFontSize = +e;
-    },
-    loadLeading(e) {
-      this.activeLeading = +e;
-    },
-    loadMeasure(e) {
-      this.activeMeasure = +e;
-    },
-    loadFontOptions(e) {
-      console.log(e);
-      this.fontOptions = e;
-      console.log(this.fontOptions);
-    },
-    checkFontWeight(weight) {
-      return weight === +this.fontOptions.fontWeight;
+    returnFontWeight(value) {
+      return +this.getFontWeight === +value;
     },
   },
 };
@@ -92,12 +113,20 @@ export default {
 <template>
   <div class="text-preview">
     <settings
-      @typeface="loadTypeface"
-      @fontSize="loadFontSize"
-      @leading="loadLeading"
-      @measure="loadMeasure"
-      @fontOptions="loadFontOptions"
+      @typeface="loadLocalSetting($event, 'typeface')"
+      @fontSize="loadLocalSetting($event, 'fontSize')"
+      @leading="loadLocalSetting($event, 'leading')"
+      @measure="loadLocalSetting($event, 'measure')"
+      @fontWeight="loadLocalSetting($event, 'fontWeight')"
+      @italic="loadLocalSetting($event, 'italic')"
+      @underline="loadLocalSetting($event, 'underline')"
+      @ligatures="loadLocalSetting($event, 'ligatures')"
+      @justifyCenter="loadLocalSetting($event, 'justifyCenter')"
       :hideSettings="isSettingsHidden"
+      :fontSize="fontSize"
+      :leading="leading"
+      :measure="measure"
+      :fontWeight="fontWeight"
     ></settings>
     <button
       class="settings-revealer"
@@ -113,33 +142,27 @@ export default {
         fontSize: getFontSize,
         lineHeight: getLeading,
         width: getMeasure,
+        color: getColor,
       }"
       :class="{
-        'fw-100': checkFontWeight(100),
-        'fw-200': checkFontWeight(200),
-        'fw-300': checkFontWeight(300),
-        'fw-400': checkFontWeight(400),
-        'fw-500': checkFontWeight(500),
-        'fw-600': checkFontWeight(600),
-        'fw-700': checkFontWeight(700),
-        'fw-800': checkFontWeight(800),
-        'fw-900': checkFontWeight(900),
-        italic: this.fontOptions.italic,
-        underline: this.fontOptions.underline,
-        'remove-ligatures': !this.fontOptions.ligatures,
-        'remove-kerning': !this.fontOptions.kerning,
-        'justify-text-center': this.fontOptions.justifyCenter,
+        'fw-100': returnFontWeight(100),
+        'fw-200': returnFontWeight(200),
+        'fw-300': returnFontWeight(300),
+        'fw-400': returnFontWeight(400),
+        'fw-500': returnFontWeight(500),
+        'fw-600': returnFontWeight(600),
+        'fw-700': returnFontWeight(700),
+        'fw-800': returnFontWeight(800),
+        'fw-900': returnFontWeight(900),
+        italic: this.italic || this.store.italic,
+        underline: this.underline || this.store.underline,
+        'remove-ligatures': !(this.ligatures || this.store.ligatures),
+        'justify-text-center': this.justifyCenter || this.store.justifyCenter,
       }"
     >
-      <h1 contenteditable="true">{{ this.store.getTitle }}</h1>
-      <p
-        :class="{
-          'old-style-figures': this.fontOptions.oldStyleFigures,
-          'lining-figures': !this.fontOptions.oldStyleFigures,
-        }"
-        contenteditable="true"
-      >
-        {{ this.store.getParagraph }}
+      <h1 contenteditable="true">{{ this.store.title }}</h1>
+      <p contenteditable="true">
+        {{ this.store.paragraph }}
       </p>
     </div>
   </div>

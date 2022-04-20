@@ -29,6 +29,10 @@ $line-height: $line-height-settings;
       }
     }
 
+    & span {
+      margin-left: -0.05em;
+    }
+
     &:hover,
     &:focus {
       border-radius: 2px;
@@ -51,6 +55,16 @@ $line-height: $line-height-settings;
     & label {
       font-size: 0.875em;
     }
+  }
+
+  & textarea {
+    position: relative;
+    line-height: calc(var(--line-height, 1) * 1em);
+    font-size: inherit;
+    padding: 0;
+    width: 100%;
+    background: var(--clr-light);
+    z-index: 10;
   }
 
   & input {
@@ -85,7 +99,7 @@ $line-height: $line-height-settings;
   align-items: center;
   width: calc(2em * var(--line-height, 1));
   height: calc(2em * var(--line-height, 1));
-
+  text-transform: lowercase;
   border: 1px solid var(--clr-dark);
   user-select: none;
 
@@ -133,6 +147,10 @@ $line-height: $line-height-settings;
   justify-content: center;
   align-items: center;
   border: 1px solid var(--clr-dark);
-  width: calc(5em * var(--line-height, 1));
+  width: calc(6em * var(--line-height, 1));
   height: calc(2em * var(--line-height, 1));
+
+  & input {
+    height: 100%;
+  }
 }

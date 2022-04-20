@@ -3,35 +3,27 @@ import { defineStore } from "pinia";
 const useStore = defineStore("main", {
   state: () => {
     return {
-      title: "You can write anything",
-      paragraph:
-        "It's a kindness that we cannot see beyond our fleshy capabilities",
-      fontWeight: false,
+      title: "",
+      paragraph: "",
+      fontSize: 16,
+      leading: 1.35,
+      measure: 600,
+
+      fontWeight: 400,
       italic: false,
       underline: false,
-      ligatures: true,
-      kerning: true,
-      antialising: false,
-      fontSize: "16px",
-      leading: "1.35",
-      measure: "600px",
+      ligatures: false,
+      justifyCenter: false,
+      color: "#000",
+
+      fontSizeLastUpdate: "local",
+      leadingLastUpdate: "local",
+      measureLastUpdate: "local",
+      fontWeightLastUpdate: "local",
     };
   },
-  actions: {
-    updateTitle(title) {
-      this.title = title;
-    },
-    updateParagraph(paragraph) {
-      this.paragraph = paragraph;
-    },
-  },
-  getters: {
-    getTitle: (state) => state.title,
-    getParagraph: (state) => state.paragraph,
-    getFontWeight: (state) => state.fontWeight,
-    isItalic: (state) => state.italic,
-    isUnderline: (state) => state.underline,
-  },
+
+  getters: {},
 });
 
 export { useStore };

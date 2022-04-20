@@ -1,49 +1,44 @@
 <script>
+import { useStore } from "../../store/index.js";
+
 export default {
-  props: ["hideSettings"],
+  setup() {
+    const store = useStore();
+    return { store };
+  },
+  props: ["hideSettings", "fontSize", "leading", "measure", "fontWeight"],
   data() {
     return {
-      fontSize: 16.0,
-      measure: 550,
-      leading: 1.3,
       typeface: "",
-      fontOptions: {
-        fontWeight: 400,
-        italic: false,
-        underline: false,
-        ligatures: true,
-        kerning: true,
-        justifyCenter: false,
-      },
+      italic: false,
+      underline: false,
+      ligatures: true,
+      justifyCenter: false,
     };
   },
+  computed: {},
+
   methods: {
-    exportTypeface() {
-      if (this.typeface.length > 1) {
-        this.$emit("typeface", this.typeface);
+    setLastUpdate(setting) {
+      console.log(`${setting}LastUpdate`);
+      this.store[`${setting}LastUpdate`] = "local";
+    },
+    switchBoolean(setting) {
+      if (this[setting]) {
+        return false;
+      } else {
+        return true;
       }
     },
-    exportFontSize() {
-      this.$emit("fontSize", this.fontSize);
-    },
-    exportLeading() {
-      this.$emit("leading", this.leading);
-    },
-    exportMeasure() {
-      this.$emit("measure", this.measure);
-    },
-    exportOptions() {
-      this.$emit("fontOptions", this.fontOptions);
-    },
-    switchStateAndLoad(fontOption) {
-      if (fontOption !== "fontWeight") {
-        if (this.fontOptions[fontOption]) {
-          this.fontOptions[fontOption] = false;
-        } else {
-          this.fontOptions[fontOption] = true;
-        }
+    updateSetting(setting, needLastUpdate = false) {
+      console.log(setting);
+      if (needLastUpdate) {
+        this.setLastUpdate(setting);
       }
-      this.exportOptions();
+      if (typeof this[setting] === "boolean") {
+        this[setting] = this.switchBoolean(setting);
+      }
+      this.$emit(setting, this[setting]);
     },
   },
 };
@@ -84,7 +79,7 @@ export default {
         id="typeface"
         v-model="typeface"
         type="text"
-        @change="exportTypeface"
+        @change="updateSetting('typeface')"
       />
     </div>
     <div class="settings_setting settings__options">
@@ -95,24 +90,24 @@ export default {
           step="100"
           min="100"
           max="900"
-          v-model="fontOptions.fontWeight"
-          @change="switchStateAndLoad('fontWeight')"
+          v-model="fontWeight"
+          @change="updateSetting('fontWeight', true)"
         />
-        <p>{{ fontOptions.fontWeight }}</p>
+        <p>{{ fontWeight }}</p>
       </div>
       <div class="option-boxes">
         <div class="flex-sb">
           <div
             class="option-box"
-            :class="{ 'option-box--selected': fontOptions.italic }"
-            @click="switchStateAndLoad('italic')"
+            :class="{ 'option-box--selected': italic }"
+            @click="updateSetting('italic')"
           >
             <p class="italic">I</p>
           </div>
           <div
             class="option-box"
-            :class="{ 'option-box--selected': fontOptions.underline }"
-            @click="switchStateAndLoad('underline')"
+            :class="{ 'option-box--selected': underline }"
+            @click="updateSetting('underline')"
           >
             <p class="underline">U</p>
           </div>
@@ -120,16 +115,16 @@ export default {
         <div class="flex-sb">
           <div
             class="option-box"
-            :class="{ 'option-box--selected': fontOptions.ligatures }"
-            @click="switchStateAndLoad('ligatures')"
+            :class="{ 'option-box--selected': ligatures }"
+            @click="updateSetting('ligatures')"
           >
             <p>fi</p>
           </div>
 
           <div
             class="option-box"
-            :class="{ 'option-box--selected': fontOptions.justifyCenter }"
-            @click="switchStateAndLoad('justifyCenter')"
+            :class="{ 'option-box--selected': justifyCenter }"
+            @click="updateSetting('justifyCenter')"
           >
             <p>J</p>
           </div>
@@ -147,7 +142,7 @@ export default {
               type="number"
               step="0.5"
               v-model="fontSize"
-              @change="exportFontSize"
+              @change="updateSetting('fontSize', true)"
             />
             <span>px</span>
           </div>
@@ -158,7 +153,7 @@ export default {
           min="1"
           max="50"
           v-model="fontSize"
-          @change="exportFontSize"
+          @change="updateSetting('fontSize', true)"
         />
       </div>
       <div class="input-slider">
@@ -171,9 +166,8 @@ export default {
               type="number"
               step="0.01"
               v-model="leading"
-              @change="exportLeading"
+              @change="updateSetting('leading', true)"
             />
-            <span>px</span>
           </div>
         </div>
         <input
@@ -183,7 +177,7 @@ export default {
           max="3"
           step="0.01"
           v-model="leading"
-          @change="exportLeading"
+          @change="updateSetting('leading', true)"
         />
       </div>
       <div class="input-slider">
@@ -195,7 +189,7 @@ export default {
               class="input-remove-spinner"
               type="number"
               v-model="measure"
-              @change="exportMeasure"
+              @change="updateSetting('measure', true)"
             />
             <span>px</span>
           </div>
@@ -207,7 +201,7 @@ export default {
           min="0"
           max="1500"
           v-model="measure"
-          @change="exportMeasure"
+          @change="updateSetting('measure', true)"
         />
       </div>
     </div>
@@ -269,7 +263,7 @@ $font-size: 1rem;
   left: 0;
   pointer-events: none;
   opacity: 0.2;
-  // display: none;
+  display: none;
 
   & div {
     height: #{$line-height * $font-size};

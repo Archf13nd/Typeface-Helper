@@ -7,18 +7,46 @@ export default {
   },
   data() {
     return {
-      title: "",
-      paragraph: "",
+      title: "The title",
+      paragraph:
+        "Are you paralyzed with fear? That’s a good sign. Fear is good. Like self-doubt, fear is an indicator. Fear tells us what we have to do. Remember one rule of thumb: the more scared we are of a work or calling, the more sure we can be that we have to do it.",
+      fontSize: 16.0,
+      leading: 1.3,
+      measure: 550,
+      fontWeight: 400,
+      italic: false,
+      underline: false,
+      ligatures: false,
+      justifyCenter: false,
+      color: "#000000",
     };
   },
   methods: {
-    updateTitle(e) {
-      console.log(e);
-      this.store.updateTitle(this.title);
+    setLastUpdate(setting) {
+      console.log(`${setting}LastUpdate`);
+      this.store[`${setting}LastUpdate`] = "global";
     },
-    updateParagraph(e) {
-      this.store.updateParagraph(this.paragraph);
+    switchBoolean(setting) {
+      if (this[setting]) {
+        return false;
+      } else {
+        return true;
+      }
     },
+    updateSetting(setting, needLastUpdate = false) {
+      console.log(setting);
+      if (needLastUpdate) {
+        this.setLastUpdate(setting);
+      }
+      if (typeof this[setting] === "boolean") {
+        this[setting] = this.switchBoolean(setting);
+      }
+      this.store[setting] = this[setting];
+    },
+  },
+  created() {
+    this.updateSetting("title");
+    this.updateSetting("paragraph");
   },
 };
 </script>
@@ -69,30 +97,73 @@ export default {
       <div class="input-text__label">
         <label for="title">Title</label>
       </div>
-      <input id="title" v-model="title" type="text" @change="updateTitle" />
+      <input
+        id="title"
+        v-model="title"
+        type="text"
+        @change="updateSetting('title')"
+      />
     </div>
-    <div class="global-settings__box-content setting">
+    <div class="global-settings__box-content input-text">
       <label for="paragraph">Box Content</label>
       <textarea
         id="paragraph"
         v-model="paragraph"
         type="text"
         rows="7"
-        @change="updateParagraph"
+        @change="updateSetting('paragraph')"
       />
     </div>
 
-    <div class="global-settings__font-options setting">
-      <div class="flex-sb">
-        <div class="option-box bold">B</div>
-        <div class="option-box italic">i</div>
-        <div class="option-box underline">u</div>
-        <div class="option-box">fi</div>
-      </div>
-      <div class="flex-sb">
-        <div class="option-box">k</div>
-        <div class="color-picker">#000000</div>
-        <div class="option-box">a</div>
+    <div class="global-settings__font-options">
+      <div class="flex-column-sb width-100">
+        <div class="flex-sb">
+          <div
+            class="option-box italic"
+            :class="{ 'option-box--selected': italic }"
+            @click="updateSetting('italic')"
+          >
+            i
+          </div>
+          <div class="weight-slider">
+            <p>Font&nbsp;weight</p>
+            <input
+              type="range"
+              step="100"
+              min="100"
+              max="900"
+              v-model="fontWeight"
+              @change="updateSetting('fontWeight', true)"
+            />
+            <p>{{ fontWeight }}</p>
+          </div>
+          <div
+            class="option-box"
+            :class="{ 'option-box--selected': ligatures }"
+            @click="updateSetting('ligatures')"
+          >
+            fi
+          </div>
+        </div>
+        <div class="flex-sb">
+          <div
+            class="option-box underline"
+            :class="{ 'option-box--selected': underline }"
+            @click="updateSetting('underline')"
+          >
+            u
+          </div>
+          <div class="color-picker">
+            <input type="color" v-model="color" @input="updateColor" />
+          </div>
+          <div
+            class="option-box"
+            :class="{ 'option-box--selected': justifyCenter }"
+            @click="updateSetting('justifyCenter')"
+          >
+            j
+          </div>
+        </div>
       </div>
     </div>
 
@@ -106,7 +177,7 @@ export default {
               type="number"
               step="0.5"
               v-model="fontSize"
-              @change="exportFontSize"
+              @change="updateSetting('fontSize', true)"
             />
             <span>px</span>
           </div>
@@ -114,9 +185,9 @@ export default {
         <input
           type="range"
           min="1"
-          max="50"
+          max="80"
           v-model="fontSize"
-          @change="exportFontSize"
+          @change="updateSetting('fontSize', true)"
         />
       </div>
       <div class="input-slider">
@@ -127,18 +198,18 @@ export default {
               class="input-remove-spinner"
               type="number"
               step="0.5"
-              v-model="fontSize"
-              @change="exportFontSize"
+              v-model="leading"
+              @change="updateSetting('leading', true)"
             />
-            <span>px</span>
           </div>
         </div>
         <input
           type="range"
           min="1"
-          max="50"
-          v-model="fontSize"
-          @change="exportFontSize"
+          max="3"
+          step="0.01"
+          v-model="leading"
+          @change="updateSetting('leading', true)"
         />
       </div>
       <div class="input-slider">
@@ -149,8 +220,8 @@ export default {
               class="input-remove-spinner"
               type="number"
               step="0.5"
-              v-model="fontSize"
-              @change="exportFontSize"
+              v-model="measure"
+              @change="updateSetting('measure', true)"
             />
             <span>px</span>
           </div>
@@ -158,9 +229,9 @@ export default {
         <input
           type="range"
           min="1"
-          max="50"
-          v-model="fontSize"
-          @change="exportFontSize"
+          max="1500"
+          v-model="measure"
+          @change="updateSetting('measure', true)"
         />
       </div>
     </div>
@@ -170,7 +241,7 @@ export default {
 <style lang="scss" scoped>
 .global-settings {
   $line-height: $line-height-settings;
-  $line-height: 1.25;
+  $line-height: 1.35;
   $font-size: 1.125rem;
   --line-height: #{$line-height};
 
@@ -201,19 +272,33 @@ export default {
   &__box-content {
     margin: $spacer-2 $spacer-2 0;
     height: calc($spacer-1 * 8);
-
-    & textarea {
-      line-height: $line-height;
-      width: 100%;
-    }
   }
 
   &__font-options {
+    --gap: calc(var(--line-height) * 1em)
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     margin: $spacer-2 $spacer-2 0;
-    gap: getEms(1, $line-height-settings);
+
+    & .weight-slider {
+      width: getEms(6, $line-height);
+      height: getEms(2, $line-height);
+      transform: none;
+
+      & input {
+        margin: .3em 0 0.2em 0;
+        width: 100%;
+      }
+     & * {
+       top: 0;
+     }
+    }
+
+
+    & > div {
+      gap: getEms(1, $line-height);
+    }
   }
 
   //   & > *:first-child {
@@ -237,7 +322,7 @@ export default {
     left: 0;
     pointer-events: none;
     opacity: 0.2;
-    // display: none;
+    display: none;
 
     & div {
       height: #{$line-height * $font-size};
