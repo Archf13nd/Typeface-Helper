@@ -154,7 +154,11 @@ export default {
             u
           </div>
           <div class="color-picker">
-            <input type="color" v-model="color" @input="updateColor" />
+            <input
+              type="color"
+              v-model="color"
+              @input="updateSetting('color')"
+            />
           </div>
           <div
             class="option-box"
