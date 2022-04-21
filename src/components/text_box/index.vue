@@ -45,7 +45,7 @@ export default {
     getFontSize() {
       let globalfontSize = this.store.fontSize;
       let localfontSize = this.fontSize;
-      console.log(this.store.fontSizeLastUpdate);
+
       if (this.store.fontSizeLastUpdate === "local") {
         return localfontSize + "px";
       } else {
@@ -92,7 +92,6 @@ export default {
   },
   methods: {
     importWebFont(font) {
-      console.log(font);
       WebFont.load({
         google: {
           // families: [`${font}:100,200,300,400,500,600,700,800,900`],
@@ -170,12 +169,13 @@ export default {
 
 <style lang="scss" scoped>
 .text-preview {
+  position: relative;
   display: flex;
   align-items: center;
-  margin: 2rem;
+  // margin: 3rem;
   border: 1px solid var(--clr-twilight);
   box-shadow: $box-shadow-default;
-  border-radius: 13px;
+  border-radius: 0.7rem;
   overflow: hidden;
   color: var(--clr-dark);
 

@@ -1,5 +1,6 @@
 <script>
 import { useStore } from "../../store/index.js";
+import MenuButton from "../Ui/menu_button/index.vue";
 
 export default {
   setup() {
@@ -7,8 +8,23 @@ export default {
     return { store };
   },
   props: ["hideSettings", "fontSize", "leading", "measure", "fontWeight"],
+  emits: [
+    "typeface",
+    "fontSize",
+    "leading",
+    "measure",
+    "fontWeight",
+    "italic",
+    "underline",
+    "ligatures",
+    "justifyCenter",
+  ],
+  components: {
+    MenuButton,
+  },
   data() {
     return {
+      isHidden: false,
       typeface: "",
       italic: false,
       underline: false,
@@ -20,7 +36,6 @@ export default {
 
   methods: {
     setLastUpdate(setting) {
-      console.log(`${setting}LastUpdate`);
       this.store[`${setting}LastUpdate`] = "local";
     },
     switchBoolean(setting) {
@@ -31,7 +46,6 @@ export default {
       }
     },
     updateSetting(setting, needLastUpdate = false) {
-      console.log(setting);
       if (needLastUpdate) {
         this.setLastUpdate(setting);
       }
@@ -40,12 +54,17 @@ export default {
       }
       this.$emit(setting, this[setting]);
     },
+    toggleSettings() {
+      console.log("hey");
+      this.isHidden = !this.isHidden;
+    },
   },
 };
 </script>
 
 <template>
-  <div class="settings" v-bind:class="{ hide: false }">
+  <menu-button @click="toggleSettings"></menu-button>
+  <div class="settings" v-bind:class="{ hide: isHidden }">
     <div class="show-grid-lines">
       <div></div>
       <div></div>
@@ -101,6 +120,7 @@ export default {
             class="option-box"
             :class="{ 'option-box--selected': italic }"
             @click="updateSetting('italic')"
+            title="Italic"
           >
             <p class="italic">I</p>
           </div>
@@ -108,6 +128,7 @@ export default {
             class="option-box"
             :class="{ 'option-box--selected': underline }"
             @click="updateSetting('underline')"
+            title="Underline"
           >
             <p class="underline">U</p>
           </div>
@@ -117,6 +138,7 @@ export default {
             class="option-box"
             :class="{ 'option-box--selected': ligatures }"
             @click="updateSetting('ligatures')"
+            title="Ligatures"
           >
             <p>fi</p>
           </div>
@@ -125,6 +147,7 @@ export default {
             class="option-box"
             :class="{ 'option-box--selected': justifyCenter }"
             @click="updateSetting('justifyCenter')"
+            title="Justified Text"
           >
             <p>J</p>
           </div>
@@ -227,6 +250,14 @@ $font-size: 1rem;
   border-right: 1px solid var(--clr-twilight);
   transition: all 0.5s ease;
 
+  @media (max-width: 45em) {
+    position: absolute;
+    background: var(--clr-light);
+    height: 100%;
+    overflow: scroll;
+    // display: none;
+  }
+
   &__options {
     @include margin-top(1, $line-height);
     display: flex;
@@ -252,6 +283,12 @@ $font-size: 1rem;
     flex-direction: column;
     gap: getEms(0.5, $line-height);
   }
+}
+
+.menu-button {
+  position: absolute;
+  font-size: 20px;
+  z-index: 10;
 }
 
 // Helpers

@@ -5,11 +5,12 @@ export default {
     const store = useStore();
     return { store };
   },
+  props: ["isMenuOpen"],
   data() {
     return {
       title: "The title",
       paragraph:
-        "Are you paralyzed with fear? That’s a good sign. Fear is good. Like self-doubt, fear is an indicator. Fear tells us what we have to do. Remember one rule of thumb: the more scared we are of a work or calling, the more sure we can be that we have to do it.",
+        "The history of typography can be traced back to the 11th century when movable type was introduced. The design of typefaces has evolved with the constant evolution of typesetting systems thanks to the technological advances of modern-day society and science. Typography at its core is a vital component of the user interface as it establishes a well-built visual hierarchy and provides a balance graphically to the letters displayed. Good typography should be used to enable the audience to be guided by the like of it and gather information from it.",
       fontSize: 16.0,
       leading: 1.3,
       measure: 550,
@@ -23,7 +24,6 @@ export default {
   },
   methods: {
     setLastUpdate(setting) {
-      console.log(`${setting}LastUpdate`);
       this.store[`${setting}LastUpdate`] = "global";
     },
     switchBoolean(setting) {
@@ -34,7 +34,6 @@ export default {
       }
     },
     updateSetting(setting, needLastUpdate = false) {
-      console.log(setting);
       if (needLastUpdate) {
         this.setLastUpdate(setting);
       }
@@ -52,7 +51,7 @@ export default {
 </script>
 
 <template>
-  <div class="global-settings">
+  <div class="global-settings" :class="{ hide: !isMenuOpen }">
     <div class="show-grid-lines">
       <div></div>
       <div></div>
@@ -122,6 +121,7 @@ export default {
             class="option-box italic"
             :class="{ 'option-box--selected': italic }"
             @click="updateSetting('italic')"
+            title="Italic"
           >
             i
           </div>
@@ -141,6 +141,7 @@ export default {
             class="option-box"
             :class="{ 'option-box--selected': ligatures }"
             @click="updateSetting('ligatures')"
+            title="Ligatures"
           >
             fi
           </div>
@@ -150,6 +151,7 @@ export default {
             class="option-box underline"
             :class="{ 'option-box--selected': underline }"
             @click="updateSetting('underline')"
+            title="Underline"
           >
             u
           </div>
@@ -158,12 +160,14 @@ export default {
               type="color"
               v-model="color"
               @input="updateSetting('color')"
+              title="Colour Picker"
             />
           </div>
           <div
             class="option-box"
             :class="{ 'option-box--selected': justifyCenter }"
             @click="updateSetting('justifyCenter')"
+            title="Justified Text"
           >
             j
           </div>
@@ -244,38 +248,50 @@ export default {
 
 <style lang="scss" scoped>
 .global-settings {
-  $line-height: $line-height-settings;
+
   $line-height: 1.35;
   $font-size: 1.125rem;
   --line-height: #{$line-height};
+  --spacer-1: calc(1em * var(--line-height));
+  --spacer-2: calc(2em * var(--line-height));
 
   font-size: $font-size;
   position: fixed;
-  $spacer-1: getEms(1, $line-height);
-  $spacer-2: getEms(2, $line-height);
   background: var(--clr-light);
   width: getEms(17, $line-height);
-  height: getEms(40, $line-height);
+  // height: getEms(40, $line-height);
+  height: 100%;
   right: 0;
+  // top: getRems(3, $line-height);
+  top: 0;
   border: 1px solid var(--clr-twilight);
   box-shadow: $box-shadow-default;
+  z-index: 20;
+  overflow-y: scroll;
+
+  @media (max-width: 45em) {
+    font-size: 1rem;
+    width: getEms(15, $line-height);
+    --spacer-2: calc(1em * var(--line-height));
+
+  }
 
   &__typeface {
-    margin: $spacer-2 $spacer-2 0;
-    height: calc($spacer-1 * 3);
+    margin: var(--spacer-2) var(--spacer-2) 0;
+    height: calc(var(--spacer-1) * 3);
 
     & label {
-      height: $spacer-1;
+      height: var(--spacer-1);
     }
 
     & input {
-      height: $spacer-2;
+      height: getEms(2, $line-height);
     }
   }
 
   &__box-content {
-    margin: $spacer-2 $spacer-2 0;
-    height: calc($spacer-1 * 8);
+    margin: var(--spacer-2) var(--spacer-2) 0;
+    height: calc(var(--spacer-1) * 9);
   }
 
   &__font-options {
@@ -283,7 +299,7 @@ export default {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    margin: $spacer-2 $spacer-2 0;
+    margin: var(--spacer-2) var(--spacer-2) 0;
 
     & .weight-slider {
       width: getEms(6, $line-height);
@@ -306,15 +322,15 @@ export default {
   }
 
   //   & > *:first-child {
-  //     margin-top: $spacer-2 !important;
+  //     margin-top: var(--spacer-2) !important;
   //   }
 
   &__sliders {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    margin: $spacer-2 $spacer-2 0;
-    height: calc($spacer-1 * 8);
+    margin: var(--spacer-2) var(--spacer-2) 0;
+    height: calc(var(--spacer-1) * 8);
   }
   // Helpers
   & .show-grid-lines {

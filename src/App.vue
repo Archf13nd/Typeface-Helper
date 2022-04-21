@@ -1,5 +1,6 @@
 <script>
 import TheHeader from "./components/header/index.vue";
+import MenuButton from "./components/Ui/menu_button/index.vue";
 import TextBox from "./components/text_box/index.vue";
 import GlobalSettings from "./components/global_settings/main.vue";
 import { useStore } from "./store/index.js";
@@ -12,13 +13,12 @@ export default {
   },
   data() {
     return {
-      title: "The dead eye",
-      paragraph:
-        "Because Elden Ring is good. Like, cancel-your-plans, ignore-your-chores, glance-up-and-realize-it’s-three-in-the-morning good. It’s good in the kind of way you want to evangelize to practically everyone, which marks it as something of a departure from its immediate predecessors. ",
+      isMenuOpen: true,
     };
   },
   components: {
     TheHeader,
+    MenuButton,
     TextBox,
     GlobalSettings,
   },
@@ -26,24 +26,46 @@ export default {
     changeParagraph(e) {
       this.paragraph = e;
     },
+    toggleMenu(e) {
+      this.isMenuOpen = e;
+    },
   },
 };
 </script>
 
 <template>
   <the-header></the-header>
+  <menu-button class="menu-button" @isMenuOpen="toggleMenu"></menu-button>
   <div class="text-windows">
-    <text-box :title="title" :paragraph="paragraph"></text-box>
-    <text-box :title="title" :paragraph="paragraph"></text-box>
-    <text-box :title="title" :paragraph="paragraph"></text-box>
-    <text-box :title="title" :paragraph="paragraph"></text-box>
-    <global-settings @textContent="changeParagraph"></global-settings>
+    <text-box></text-box>
+    <text-box></text-box>
+    <text-box></text-box>
+    <text-box></text-box>
   </div>
+  <global-settings
+    @textContent="changeParagraph"
+    :isMenuOpen="isMenuOpen"
+  ></global-settings>
 </template>
 
 <style lang="scss">
 .text-windows {
+  position: relative;
   display: flex;
   flex-wrap: wrap;
+  margin: getEms(3, $line-height);
+  gap: getEms(3, $line-height);
+
+  @media (max-width: 45em) {
+    margin: getEms(1, $line-height);
+    gap: getEms(1, $line-height);
+  }
+}
+
+.menu-button {
+  position: fixed;
+  top: 1rem;
+  right: 2rem;
+  z-index: 100;
 }
 </style>

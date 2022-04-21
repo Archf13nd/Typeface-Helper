@@ -1,11 +1,11 @@
 <template>
   <header>
     <div class="logo">Typeface Finder</div>
-    <nav>
+    <!-- <nav>
       <a href="#">Type Finder</a>
       <a href="#">Cheat sheet</a>
       <a href="#">Guide</a>
-    </nav>
+    </nav> -->
   </header>
 </template>
 
@@ -14,7 +14,7 @@ header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  height: 5rem;
+  height: getRems(3, $line-height);
   font-size: 1.5rem;
   border-bottom: 1px solid var(--clr-twilight);
   padding: 0 5rem;
