@@ -42,6 +42,9 @@ export default {
       }
       this.store[setting] = this[setting];
     },
+    addBox() {
+      this.$emit("addBox");
+    },
   },
   created() {
     this.updateSetting("title");
@@ -92,6 +95,13 @@ export default {
       <div></div>
       <div></div>
     </div>
+    <button
+      class="global-settings__add-button add-button"
+      title="Add Text Box"
+      @click="addBox"
+    >
+      <p>+</p>
+    </button>
     <div class="global-settings__typeface input-text">
       <div class="input-text__label">
         <label for="title">Title</label>
@@ -118,7 +128,7 @@ export default {
       <div class="flex-column-sb width-100">
         <div class="flex-sb">
           <div
-            class="option-box italic"
+            class="option-box italic uppercase"
             :class="{ 'option-box--selected': italic }"
             @click="updateSetting('italic')"
             title="Italic"
@@ -138,17 +148,15 @@ export default {
             <p>{{ fontWeight }}</p>
           </div>
           <div
-            class="option-box"
+            class="option-box option-box--ligatures"
             :class="{ 'option-box--selected': ligatures }"
             @click="updateSetting('ligatures')"
             title="Ligatures"
-          >
-            fi
-          </div>
+          ></div>
         </div>
         <div class="flex-sb">
           <div
-            class="option-box underline"
+            class="option-box underline uppercase"
             :class="{ 'option-box--selected': underline }"
             @click="updateSetting('underline')"
             title="Underline"
@@ -164,13 +172,11 @@ export default {
             />
           </div>
           <div
-            class="option-box"
+            class="option-box option-box--justified-text"
             :class="{ 'option-box--selected': justifyCenter }"
             @click="updateSetting('justifyCenter')"
             title="Justified Text"
-          >
-            j
-          </div>
+          ></div>
         </div>
       </div>
     </div>
@@ -276,8 +282,13 @@ export default {
 
   }
 
+  &__add-button {
+    margin: 0 auto;
+    margin-top: var(--spacer-2);
+  }
+
   &__typeface {
-    margin: var(--spacer-2) var(--spacer-2) 0;
+    margin: var(--spacer-1) var(--spacer-2) 0;
     height: calc(var(--spacer-1) * 3);
 
     & label {

@@ -63,8 +63,14 @@ export default {
 </script>
 
 <template>
-  <menu-button @click="toggleSettings"></menu-button>
-  <div class="settings" v-bind:class="{ hide: isHidden }">
+  <menu-button
+    :class="{ 'menu-button__hidden': isHidden }"
+    @click="toggleSettings"
+  ></menu-button>
+  <div
+    class="settings"
+    v-bind:class="{ hide: isHidden, settings__hidden: isHidden }"
+  >
     <div class="show-grid-lines">
       <div></div>
       <div></div>
@@ -90,6 +96,7 @@ export default {
       <div></div>
       <div></div>
     </div>
+
     <div class="input-text">
       <div class="input-text__label">
         <label for="typeface">Typeface</label>
@@ -135,22 +142,18 @@ export default {
         </div>
         <div class="flex-sb">
           <div
-            class="option-box"
+            class="option-box option-box--ligatures"
             :class="{ 'option-box--selected': ligatures }"
             @click="updateSetting('ligatures')"
             title="Ligatures"
-          >
-            <p>fi</p>
-          </div>
+          ></div>
 
           <div
-            class="option-box"
+            class="option-box option-box--justified-text"
             :class="{ 'option-box--selected': justifyCenter }"
             @click="updateSetting('justifyCenter')"
             title="Justified Text"
-          >
-            <p>J</p>
-          </div>
+          ></div>
         </div>
       </div>
     </div>
@@ -235,20 +238,23 @@ export default {
 // Changing these values will change the grid
 $line-height: 1.2;
 $font-size: 1rem;
+$height: getEms(19, $line-height);
+$width: getEms(10, $line-height);
 
 .settings {
   // CSS variable passes line-height into scss components
   --line-height: #{$line-height};
+
   font-family: $ff-sans;
   position: relative;
   font-size: $font-size;
   line-height: $line-height;
   // background: rgb(255, 255, 255);
-  width: getEms(10, $line-height);
-  height: getEms(19, $line-height);
+  width: $width;
+  height: $height;
   padding: 0 getEms(1, $line-height);
   border-right: 1px solid var(--clr-twilight);
-  transition: all 0.5s ease;
+  transition: $default-transition;
 
   @media (max-width: 45em) {
     position: absolute;
@@ -283,12 +289,32 @@ $font-size: 1rem;
     flex-direction: column;
     gap: getEms(0.5, $line-height);
   }
+
+  &__hidden {
+    // transform: translateX(-$width);
+    margin-left: -$width;
+  }
 }
 
 .menu-button {
+  font-size: $font-size;
+  $distance: calc($width - getEms(1.6, $line-height));
+  // $distance: $width;
+  transform-origin: right;
   position: absolute;
-  font-size: 20px;
+  width: 1.5em;
+  height: 1.5em;
   z-index: 10;
+  left: 0em;
+  transform: translateX($distance);
+  top: 0.5rem;
+  transition: $default-transition;
+
+  &__hidden {
+    top: 0.5rem;
+    left: 0.5em;
+    transform: none;
+  }
 }
 
 // Helpers

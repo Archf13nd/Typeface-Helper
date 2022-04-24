@@ -37,6 +37,10 @@
   text-decoration: underline;
 }
 
+.uppercase {
+  text-transform: uppercase;
+}
+
 .remove-ligatures {
   font-variant-ligatures: none;
   font-feature-settings: "liga" 0;
@@ -62,5 +66,5 @@
 }
 
 .hide {
-  display: none !important;
+  visibility: hidden;
 }

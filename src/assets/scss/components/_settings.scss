@@ -97,17 +97,31 @@
   align-items: center;
   width: calc(2em * var(--line-height, 1));
   height: calc(2em * var(--line-height, 1));
-  text-transform: lowercase;
+  // text-transform: uppercase;
   border: 1px solid var(--clr-dark);
   user-select: none;
+  background-size: 50%;
+  background-repeat: no-repeat;
+  background-position: center;
+
+  &--justified-text {
+    background-image: url("src/assets/images/justified-text.svg");
+
+    // background: #000;
+  }
+
+  &--ligatures {
+    background-image: url("src/assets/images/ligatures.svg");
+    background-size: 40%;
+  }
 
   & p {
     font-size: 1.2em;
   }
 
   &--selected {
-    border: 1px solid rgb(27, 157, 27);
-    background: rgb(27, 157, 27, 0.2);
+    border: 1px solid var(--clr-primary);
+    background-color: var(--clr-primary);
   }
 }
 
@@ -150,5 +164,28 @@
 
   & input {
     height: 100%;
+  }
+}
+
+.add-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--clr-primary, green);
+  width: calc(4em * var(--line-height, 1));
+  height: calc(2em * var(--line-height, 1));
+  transition: transform $default-transition, filter $default-transition;
+
+  &:hover {
+    filter: brightness(1.2);
+    transform: translateY(-0.1rem);
+  }
+
+  &:active {
+    transform: none;
+  }
+
+  & p {
+    font-size: 2em;
   }
 }

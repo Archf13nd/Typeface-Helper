@@ -105,6 +105,10 @@ export default {
     returnFontWeight(value) {
       return +this.getFontWeight === +value;
     },
+    removeBox(e) {
+      const boxId = e.target.closest(".text-preview").id;
+      this.$emit("remove-box", boxId);
+    },
   },
 };
 </script>
@@ -127,13 +131,8 @@ export default {
       :measure="measure"
       :fontWeight="fontWeight"
     ></settings>
-    <button
-      class="settings-revealer"
-      @click="isSettingsHidden = !isSettingsHidden"
-    >
-      Settings
-    </button>
 
+    <button class="remove-button" @click="removeBox"><p>&times;</p></button>
     <div
       class="text-preview__text"
       :style="{
@@ -191,11 +190,23 @@ export default {
   }
 }
 
-.settings-revealer {
+.remove-button {
   position: absolute;
-  right: left;
-  font-size: initial;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  right: 0.3rem;
+  top: 0.3rem;
+  width: 1.5rem;
+  height: 1.5rem;
+  font-size: 3rem;
+  font-weight: 700;
+  outline: none;
+  border: none;
   line-height: initial;
-  display: none; //todo
+  color: var(--clr-danger);
+  cursor: pointer;
+  & p {
+  }
 }
 </style>

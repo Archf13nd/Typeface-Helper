@@ -30,20 +30,19 @@ export default {
 
 <style lang="scss" scoped>
 .menu-button {
-  font-size: 31px;
   // position: absolute;
   display: flex;
   justify-content: center;
   flex-direction: column;
-  height: 1em;
-  width: 1.25em;
+  width: 2rem;
+  height: 2rem;
   cursor: pointer;
 
   // z-index: 10;
 
   &__bar {
     background: var(--clr-dark);
-    height: 0.2em;
+    height: 20%;
     width: 100%;
     // margin-top: calc(1em - 7%);
 
@@ -56,8 +55,9 @@ export default {
 
       height: inherit;
       width: inherit;
-      transform-origin: bottom left;
-      top: 80%;
+      transform-origin: center;
+      transform: translateY(200%);
+      transition: all 0.5s ease;
     }
     &:before {
       content: "";
@@ -66,19 +66,22 @@ export default {
 
       height: inherit;
       width: inherit;
-      transform-origin: top left;
-      top: 0%;
+      transform-origin: center;
+      transform: translateY(-200%);
+      transition: all 0.5s ease;
     }
   }
   &--open {
     .menu-button__bar {
       background: transparent;
+      opacity: 1;
+
       &:after {
-        transform: rotateZ(-45deg);
+        transform: translateY(0%) rotateZ(45deg);
         opacity: 1;
       }
       &:before {
-        transform: rotateZ(45deg);
+        transform: translateY(0%) rotateZ(-45deg);
         opacity: 1;
       }
     }

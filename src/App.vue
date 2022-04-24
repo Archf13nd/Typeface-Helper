@@ -14,6 +14,7 @@ export default {
   data() {
     return {
       isMenuOpen: true,
+      boxes: ["box-1", "box-2"],
     };
   },
   components: {
@@ -23,11 +24,17 @@ export default {
     GlobalSettings,
   },
   methods: {
-    changeParagraph(e) {
-      this.paragraph = e;
-    },
     toggleMenu(e) {
       this.isMenuOpen = e;
+    },
+    addBox() {
+      const lastNum = this.boxes[this.boxes.length - 1];
+      this.boxes.push(`box-${lastNum + 1}`);
+    },
+    removeBox(box) {
+      const pos = this.boxes.indexOf(box);
+      console.log(pos);
+      this.boxes.splice(pos, 1);
     },
   },
 };
@@ -37,15 +44,14 @@ export default {
   <the-header></the-header>
   <menu-button class="menu-button" @isMenuOpen="toggleMenu"></menu-button>
   <div class="text-windows">
-    <text-box></text-box>
-    <text-box></text-box>
-    <text-box></text-box>
-    <text-box></text-box>
+    <text-box
+      v-for="box in boxes"
+      :key="box"
+      :id="box"
+      @removeBox="removeBox"
+    ></text-box>
   </div>
-  <global-settings
-    @textContent="changeParagraph"
-    :isMenuOpen="isMenuOpen"
-  ></global-settings>
+  <global-settings @addBox="addBox" :isMenuOpen="isMenuOpen"></global-settings>
 </template>
 
 <style lang="scss">

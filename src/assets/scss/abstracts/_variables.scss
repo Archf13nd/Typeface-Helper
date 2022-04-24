@@ -12,7 +12,14 @@ $ff-sans: "Open Sans", sans-serif;
   --clr-dark: #333;
   --clr-twilight: #afafaf;
   --clr-light: #fff;
+  --clr-primary: rgb(118, 199, 118);
+  --clr-danger: rgb(255, 88, 88);
 }
+
+/*---------------------------*/
+/*---Animations-------------*/
+/*---------------------------*/
+$default-transition: 0.3s ease;
 
 // Dark mode
 // @media (min-width: 900px) {
