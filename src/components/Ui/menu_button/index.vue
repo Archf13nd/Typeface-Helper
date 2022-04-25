@@ -1,3 +1,4 @@
+// Hamburger menu with animation
 <script>
 export default {
   data() {
