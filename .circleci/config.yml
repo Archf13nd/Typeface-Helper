@@ -18,6 +18,6 @@ workflows:
   sample:
     jobs:
       - install
-      - build
+      - build:
           requires:
             - install
