@@ -1,23 +1,14 @@
 version: 2.1
 
 jobs:
-  install:
-    docker:
-      - image: cimg/node:18.0
-    steps:
-      # Checkout the code as the first step
-      - checkout
-      - run: npm install
   build:
     docker:
       - image: cimg/node:18.0
     steps:
       - checkout
+      - run: npm install
       - run: npm run build
 workflows:
-  sample:
+  building-site:
     jobs:
-      - install
-      - build:
-          requires:
-            - install
+      - build
