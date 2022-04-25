@@ -1,7 +1,7 @@
 version: 2.1
 
 jobs:
-  install:   
+  install:
     docker:
       - image: cimg/node:18.0
     steps:
@@ -11,11 +11,9 @@ jobs:
   build:
     docker:
       - image: cimg/node:18.0
-      steps:
+    steps:
       - checkout
       - run: npm run build
-
-
 workflows:
   sample:
     jobs:
