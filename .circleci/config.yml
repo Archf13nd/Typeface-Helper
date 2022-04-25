@@ -7,10 +7,17 @@ jobs:
     steps:
       # Checkout the code as the first step.
       - checkout
-      -run: npm install
+      - run: npm install
+  build:
+    docker:
+      - image: cimg/node:18.0
+      steps:
+      - checkout
       - run: npm run build
+
 
 workflows:
   sample:
     jobs:
       - install
+      - build
