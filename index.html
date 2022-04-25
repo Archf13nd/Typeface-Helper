@@ -2,16 +2,21 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" href="/favicon.ico" />
+    <meta property="og:image" content="<%= BASE_URL %>meta-img.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Vite App</title>
+    <title>Type Finder</title>
   </head>
   <body>
     <div id="app"></div>
-    <script type="module" src="/src/main.js"></script>
     <script
       async
       src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js"
     ></script>
+
+    <!-- <script
+      crossorigin="anonymous"
+      src="https://polyfill.io/v3/polyfill.min.js?version=3.111.0"
+    ></script> -->
+    <script type="module" src="/src/main.js"></script>
   </body>
 </html>

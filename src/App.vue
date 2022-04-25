@@ -1,33 +1,77 @@
 <script>
-import TextWindow from "./components/TextPreview/index.vue";
+import TheHeader from "./components/header/index.vue";
+import MenuButton from "./components/Ui/menu_button/index.vue";
+import TextBox from "./components/text_box/index.vue";
+import GlobalSettings from "./components/global_settings/main.vue";
+import { useStore } from "./store/index.js";
+
 export default {
+  setup() {
+    const store = useStore();
+
+    return { store };
+  },
   data() {
     return {
-      title: "The dead eye",
-      paragraph:
-        "Because Elden Ring is good. Like, cancel-your-plans, ignore-your-chores, glance-up-and-realize-it’s-three-in-the-morning good. It’s good in the kind of way you want to evangelize to practically everyone, which marks it as something of a departure from its immediate predecessors. ",
+      isMenuOpen: true,
+      boxes: ["box-1", "box-2"],
     };
   },
   components: {
-    TextWindow,
+    TheHeader,
+    MenuButton,
+    TextBox,
+    GlobalSettings,
+  },
+  methods: {
+    toggleMenu(e) {
+      this.isMenuOpen = e;
+    },
+    addBox() {
+      const lastNum = this.boxes[this.boxes.length - 1];
+      this.boxes.push(`box-${lastNum + 1}`);
+    },
+    removeBox(box) {
+      const pos = this.boxes.indexOf(box);
+      console.log(pos);
+      this.boxes.splice(pos, 1);
+    },
   },
 };
 </script>
 
 <template>
+  <the-header></the-header>
+  <menu-button class="menu-button" @isMenuOpen="toggleMenu"></menu-button>
   <div class="text-windows">
-    <text-window :title="title" :paragraph="paragraph"></text-window>
-    <text-window :title="title" :paragraph="paragraph"></text-window>
-    <text-window :title="title" :paragraph="paragraph"></text-window>
-    <text-window :title="title" :paragraph="paragraph"></text-window>
-    <text-window :title="title" :paragraph="paragraph"></text-window>
-    <text-window :title="title" :paragraph="paragraph"></text-window>
+    <text-box
+      v-for="box in boxes"
+      :key="box"
+      :id="box"
+      @removeBox="removeBox"
+    ></text-box>
   </div>
+  <global-settings @addBox="addBox" :isMenuOpen="isMenuOpen"></global-settings>
 </template>
 
 <style lang="scss">
 .text-windows {
+  position: relative;
   display: flex;
   flex-wrap: wrap;
+  margin: getEms(3, $line-height);
+  gap: getEms(3, $line-height);
+
+  @media (max-width: 45em) {
+    margin: getEms(1, $line-height);
+    gap: getEms(1, $line-height);
+  }
+}
+
+.menu-button {
+  position: fixed;
+  top: 1rem;
+  right: 2rem;
+  z-index: 100;
 }
 </style>

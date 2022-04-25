@@ -2,6 +2,14 @@
 /*  Reset                 */
 /* ---------------------- */
 
+html,
+body {
+  font-size: $base-font-size-desktop;
+  font-family: $ff-sans;
+  background: var(--clr-light);
+  color: var(--clr-dark);
+}
+
 /* Box Sizing */
 *,
 *::before,
@@ -50,6 +58,15 @@ button,
 textarea,
 select {
   font: inherit;
+  background: var(--clr-light);
+  border: 1px solid var(--clr-twilight);
+  color: var(--clr-dark);
+  border-radius: 0.2rem;
+}
+
+// Input fields fit container
+input {
+  width: 100%;
 }
 
 /* Remove animations for people for have disabled them */
