@@ -19,3 +19,5 @@ workflows:
     jobs:
       - install
       - build
+          requires:
+            - install
