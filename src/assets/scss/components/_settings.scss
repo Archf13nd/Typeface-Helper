@@ -4,6 +4,9 @@
   flex-direction: column;
   gap: calc(0.3em * var(--line-height, 1));
 
+  & input {
+    cursor: pointer;
+  }
   &__info {
     display: flex;
     justify-content: space-between;
@@ -103,6 +106,7 @@
   background-size: 50%;
   background-repeat: no-repeat;
   background-position: center;
+  cursor: pointer;
 
   &--justified-text {
     background-image: url("src/assets/images/justified-text.svg");
@@ -132,6 +136,7 @@
   transform: rotateZ(-90deg);
   transform-origin: center;
   user-select: none;
+  cursor: pointer;
 
   height: calc(5em * var(--line-height, 1));
   width: calc(2em * var(--line-height, 1));
@@ -147,7 +152,7 @@
 
   & input {
     width: calc(5em * var(--line-height, 1));
-
+    cursor: pointer;
     margin-top: 0em;
     margin-bottom: 0.5em;
     height: 4px;
@@ -161,9 +166,16 @@
   border: 1px solid var(--clr-dark);
   width: calc(6em * var(--line-height, 1));
   height: calc(2em * var(--line-height, 1));
+  cursor: pointer;
 
   & input {
     height: 100%;
+  }
+
+  & p {
+    position: absolute;
+    color: var(--clr-light);
+    pointer-events: none;
   }
 }
 
@@ -175,6 +187,7 @@
   width: calc(4em * var(--line-height, 1));
   height: calc(2em * var(--line-height, 1));
   transition: transform $default-transition, filter $default-transition;
+  cursor: pointer;
 
   &:hover {
     filter: brightness(1.2);

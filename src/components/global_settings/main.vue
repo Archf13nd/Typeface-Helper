@@ -1,5 +1,6 @@
 <script>
 import { useStore } from "../../store/index.js";
+import { invertHex } from "../../assets/js-functions/inverseColor.js";
 export default {
   setup() {
     const store = useStore();
@@ -21,6 +22,11 @@ export default {
       justifyCenter: false,
       color: "#000000",
     };
+  },
+  computed: {
+    invertBrightness() {
+      return invertHex(this.color);
+    },
   },
   methods: {
     setLastUpdate(setting) {
@@ -170,6 +176,7 @@ export default {
               @input="updateSetting('color')"
               title="Colour Picker"
             />
+            <p :style="{ color: invertBrightness }">Text Color</p>
           </div>
           <div
             class="option-box option-box--justified-text"
