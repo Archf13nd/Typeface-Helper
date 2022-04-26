@@ -109,13 +109,13 @@
   cursor: pointer;
 
   &--justified-text {
-    background-image: url("src/assets/images/justified-text.svg");
+    background-image: url("../../assets/images/justified-text.svg");
 
     // background: #000;
   }
 
   &--ligatures {
-    background-image: url("src/assets/images/ligatures.svg");
+    background-image: url("../../assets/images/ligatures.svg");
     background-size: 40%;
   }
 
