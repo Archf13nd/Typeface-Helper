@@ -12,7 +12,6 @@ export default {
       this.isMenuOpen === true
         ? (this.isMenuOpen = false)
         : (this.isMenuOpen = true);
-      console.log(this.isMenuOpen);
       this.$emit("isMenuOpen", this.isMenuOpen);
     },
   },

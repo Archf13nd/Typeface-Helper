@@ -24,7 +24,7 @@ export default {
     };
   },
   computed: {
-    invertBrightness() {
+    invertColor() {
       return invertHex(this.color);
     },
   },
@@ -176,7 +176,7 @@ export default {
               @input="updateSetting('color')"
               title="Colour Picker"
             />
-            <p :style="{ color: invertBrightness }">Text Color</p>
+            <p :style="{ color: invertColor }">Text Color</p>
           </div>
           <div
             class="option-box option-box--justified-text"
