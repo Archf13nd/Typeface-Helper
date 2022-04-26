@@ -2,7 +2,7 @@
 import TheHeader from "./components/header/index.vue";
 import MenuButton from "./components/Ui/menu_button/index.vue";
 import TextBox from "./components/text_box/index.vue";
-import GlobalSettings from "./components/global_settings/main.vue";
+import GlobalSettings from "./components/global_settings/index.vue";
 import { useStore } from "./store/index.js";
 
 export default {
