@@ -181,7 +181,7 @@ export default {
           <div
             class="option-box option-box--justified-text"
             :class="{ 'option-box--selected': justifyCenter }"
-                @click="updateSetting('justifyCenter')"
+              @click="updateSetting('justifyCenter')"
             title="Justified Text"
           ></div>
         </div>
